@@ -2,6 +2,12 @@ const Accounts = require(`./accounts-model`)
 const router = require('express').Router()
 const { checkAccountId, checkAccountNameUnique, checkAccountPayload } = require(`./accounts-middleware`)
 
+// getAll,
+// getById,
+// create,
+// updateById,
+// deleteById,
+
 router.get('/', async (req, res, next) => {
   try {
     const accounts = await Accounts.getAll()
@@ -11,19 +17,19 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-router.get('/:id', (req, res, next) => {
-  // DO YOUR MAGIC
+router.get('/:id', checkAccountId, async (req, res, next) => {
+
 })
 
 router.post('/', (req, res, next) => {
   // DO YOUR MAGIC
 })
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', [checkAccountNameUnique, checkAccountPayload], async (req, res, next) => {
   // DO YOUR MAGIC
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', checkAccountId, (req, res, next) => {
   // DO YOUR MAGIC
 })
 
