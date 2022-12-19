@@ -11,7 +11,6 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//This is letting an id that does not exist go through for some reason - need to check why.
 router.get('/:id', checkAccountId, async (req, res, next) => {
   try {
     const account = await Accounts.getById(req.params.id)
@@ -32,10 +31,11 @@ router.post('/', [checkAccountPayload, checkAccountNameUnique], async (req, res,
   }
 })
 
-//Still need to check with Postman or HTTPie
+//Name + Budget are required, even if you only want to change one
+// // you have to put in a different name than the old one to change the data for that id - even if you don't want to
 router.put('/:id', [checkAccountId, checkAccountPayload, checkAccountNameUnique], async (req, res, next) => {
   try {
-    const updateAcct = await Accounts.updateById(id, req.body)
+    const updateAcct = await Accounts.updateById(req.params.id, req.body)
     res.json(updateAcct)
   }
   catch (err) {
@@ -43,14 +43,14 @@ router.put('/:id', [checkAccountId, checkAccountPayload, checkAccountNameUnique]
   }
 });
 
-// getAll,
-//   getById,
-//   create,
-//   updateById,
-//   deleteById,
-
-router.delete('/:id', checkAccountId, (req, res, next) => {
-
+router.delete('/:id', checkAccountId, async (req, res, next) => {
+  try {
+    const account = await Accounts.deleteById(req.params.id)
+    res.json(account)
+  }
+  catch (err) {
+    next(err)
+  }
 })
 
 router.use((err, req, res, next) => {

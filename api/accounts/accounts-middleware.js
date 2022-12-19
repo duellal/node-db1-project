@@ -1,9 +1,6 @@
 const db = require(`../../data/db-config`)
 const Accounts = require(`./accounts-model`)
 
-//For the PUT request:
-//if there is no name in the req.body check if the account exists and get the old name that way
-//same as above for budget
 
 exports.checkAccountPayload = (req, res, next) => {
   let { name, budget } = req.body
